@@ -2224,6 +2224,9 @@ int main(int argc, char **argv) {
         if (cliConnect(0) == REDIS_ERR) exit(1);
         latencyMode();
     }
+    
+    fprintf(stderr,"latencyMode finish\n");
+
 
     /* Latency distribution mode */
     if (config.latency_dist_mode) {
@@ -2279,6 +2282,8 @@ int main(int argc, char **argv) {
 
     /* Start interactive mode when no command is provided */
     if (argc == 0 && !config.eval) {
+        fprintf(stderr,"Start interactive mode when no command is provided\n");
+
         /* Ignore SIGPIPE in interactive mode to force a reconnect */
         signal(SIGPIPE, SIG_IGN);
 
@@ -2290,6 +2295,8 @@ int main(int argc, char **argv) {
 
     /* Otherwise, we have some arguments to execute */
     if (cliConnect(0) != REDIS_OK) exit(1);
+    fprintf(stderr,"cliConnect = REDIS_OK\n");
+
     if (config.eval) {
         return evalMode(argc,argv);
     } else {
