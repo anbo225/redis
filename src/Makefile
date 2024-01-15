@@ -33,18 +33,20 @@ else
 	MALLOC=libc
 endif
 
+MALLOC=libc
+
 # Backwards compatibility for selecting an allocator
-ifeq ($(USE_TCMALLOC),yes)
-	MALLOC=tcmalloc
-endif
+# ifeq ($(USE_TCMALLOC),yes)
+# 	MALLOC=tcmalloc
+# endif
 
-ifeq ($(USE_TCMALLOC_MINIMAL),yes)
-	MALLOC=tcmalloc_minimal
-endif
+# ifeq ($(USE_TCMALLOC_MINIMAL),yes)
+# 	MALLOC=tcmalloc_minimal
+# endif
 
-ifeq ($(USE_JEMALLOC),yes)
-	MALLOC=jemalloc
-endif
+# ifeq ($(USE_JEMALLOC),yes)
+# 	MALLOC=jemalloc
+# endif
 
 # Override default settings if possible
 -include .make-settings
@@ -78,21 +80,21 @@ endif
 # Include paths to dependencies
 FINAL_CFLAGS+= -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src
 
-ifeq ($(MALLOC),tcmalloc)
-	FINAL_CFLAGS+= -DUSE_TCMALLOC
-	FINAL_LIBS+= -ltcmalloc
-endif
+# ifeq ($(MALLOC),tcmalloc)
+# 	FINAL_CFLAGS+= -DUSE_TCMALLOC
+# 	FINAL_LIBS+= -ltcmalloc
+# endif
 
-ifeq ($(MALLOC),tcmalloc_minimal)
-	FINAL_CFLAGS+= -DUSE_TCMALLOC
-	FINAL_LIBS+= -ltcmalloc_minimal
-endif
+# ifeq ($(MALLOC),tcmalloc_minimal)
+# 	FINAL_CFLAGS+= -DUSE_TCMALLOC
+# 	FINAL_LIBS+= -ltcmalloc_minimal
+# endif
 
-ifeq ($(MALLOC),jemalloc)
-	DEPENDENCY_TARGETS+= jemalloc
-	FINAL_CFLAGS+= -DUSE_JEMALLOC -I../deps/jemalloc/include
-	FINAL_LIBS+= ../deps/jemalloc/lib/libjemalloc.a -ldl
-endif
+# ifeq ($(MALLOC),jemalloc)
+# 	DEPENDENCY_TARGETS+= jemalloc
+# 	FINAL_CFLAGS+= -DUSE_JEMALLOC -I../deps/jemalloc/include
+# 	FINAL_LIBS+= ../deps/jemalloc/lib/libjemalloc.a -ldl
+# endif
 
 REDIS_CC=$(QUIET_CC)$(CC) $(FINAL_CFLAGS)
 REDIS_LD=$(QUIET_LINK)$(CC) $(FINAL_LDFLAGS)
